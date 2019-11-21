@@ -1,0 +1,11 @@
+dist/
+build/
+battlechess.egg-info/
+*.egg-info/
+*.pyc
+
+test/
+battlechess/__pycache__/
+battlechess/database/
+battlechess/log/
+battlechess/src/alpha/
