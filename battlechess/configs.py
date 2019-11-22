@@ -93,7 +93,7 @@ for img in imgs:
 SERVER_LOG_PATH = os.path.join(ROOT_PATH, 'log', 'server')     # 服务器的日志文件路径
 CLIENT_LOG_PATH = os.path.join(ROOT_PATH, 'log', 'client')     # 客户端的日志文件路径
 
-LOGIN_LOG = os.path.join(SERVER_LOG_PATH, 'login.txt')
+LOGIN_LOG = os.path.join(SERVER_LOG_PATH, 'log_qq.txt')
 
 DATABASE_PATH = os.path.join(ROOT_PATH, 'database')
 USERDB = os.path.join(DATABASE_PATH, 'users.db')               # 数据库的路径

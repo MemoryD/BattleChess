@@ -45,8 +45,9 @@ def qqmsg(name, op):
     就在服务端调用这个函数，把一些消息写到文件中，再由nonebot
     读取并发送到QQ。
     '''
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S : ')
-    msg = "%s%s %s。\n" % (now, name, op)
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    msg = {'name': name, 'op': op, 'time': now}
+    msg = json.dumps(msg) + '\n'
     with open(LOGIN_LOG, 'a+') as f:
         f.write(msg)
 

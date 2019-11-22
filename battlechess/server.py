@@ -7,7 +7,6 @@
 @document: 皇家战棋游戏的服务端文件
 '''
 import os
-import json
 from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
 from twisted.internet.endpoints import TCP4ServerEndpoint
@@ -69,7 +68,6 @@ class BCServerProtocol(Protocol):
 
         datas = spilt_data(_data)
         for data in datas:
-            print(data)
             typ = data['type']
             if typ in self.parse:
                 self.parse[typ](data)
@@ -170,8 +168,8 @@ class BCServerProtocol(Protocol):
             your_user = get_user(you)
             data1 = {'type': 'init', 'chess': chess, 'turn': 'red', 'color': 'red', 'me': my_user, 'you': your_user}
             data2 = {'type': 'init', 'chess': chess, 'turn': 'red', 'color': 'blue', 'me': your_user, 'you': my_user}
-            self.transport.write(dict2bin(reply))
-            self.sendToMatched(dict2bin(reply))
+            self.transport.write(dict2bin(data1))
+            self.sendToMatched(dict2bin(data2))
 
     def unmatch(self, user):
         '''
@@ -206,7 +204,7 @@ class BCServerProtocol(Protocol):
         v = self.cleangame()
         if v:
             self.log.print('%s 和 %s 的游戏正常结束。' % (self.user, v))
-            qqmsg('%s 和 %s' % (self.user, v), '的游戏正常结束')
+            qqmsg('%s 和 %s' % (self.user, v), '的游戏结束')
         user = data['user']
         if not user:
             return
@@ -248,7 +246,10 @@ def createDatabase():
                 PASSWD VARCHAR(20) NOT NULL,
                 CREDIT INT NOT NULL,
                 TITLE VARCHAR(8)
-                );'''
+                );
+                INSERT INTO user(name, passwd, credit, title) VALUES('xinxin', '2333', 1095, '小城主');
+                INSERT INTO user(name, passwd, credit, title) VALUES('memory', '2333', 1095, '小城主');
+                '''
         excuteSQL(sql)
 
 
