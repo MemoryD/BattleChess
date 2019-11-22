@@ -10,7 +10,7 @@
 import json
 from tkinter.messagebox import showinfo
 from twisted.internet.protocol import Protocol, ClientFactory
-from .utils import Logging
+from .utils import Logging, spilt_data
 from .configs import CLIENT_LOG_PATH
 
 
@@ -22,18 +22,31 @@ class BCClientProtocol(Protocol):
         self.ui = ui
 
     def connectionMade(self):
+        '''
+        建立连接。
+        '''
         self.connected = True
 
     def connectionLost(self, reason):
+        '''
+        丢失连接。
+        '''
         self.connected = False
 
     def dataReceived(self, data):
-        data = json.loads(data.decode('utf-8'))
+        '''
+        收到服务器的数据时采取的动作。
+        由于数据可能粘包，所以需要先进行分包，然后再逐个处理。
+        '''
+        jsons = spilt_data(data)
 
-        if data['type'] in ['signin', 'signup']:
-            self.user_login(data)
-        else:
-            self.factory.data = data
+        for data in jsons:
+            if 'type' not in data:
+                continue
+            if data['type'] in ['signin', 'signup']:
+                self.user_login(data)
+            else:
+                self.factory.data.append(data)
 
     def user_login(self, data):
         typ = data['type']
@@ -55,7 +68,7 @@ class BCClientProtocol(Protocol):
 class BCClientFactory(ClientFactory):
     def __init__(self, ui):
         self.protocol = None
-        self.data = None
+        self.data = []
         self.failed = False
         self.lost = False
         self.log = Logging(CLIENT_LOG_PATH)

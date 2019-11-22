@@ -99,7 +99,7 @@ DATABASE_PATH = os.path.join(ROOT_PATH, 'database')
 USERDB = os.path.join(DATABASE_PATH, 'users.db')               # 数据库的路径
 
 '''IP 设置，联网对战的服务器'''
-HOST = '39.106.67.160'              # 服务器地址
+HOST = '127.0.0.1'              # 服务器地址
 PORT = 1122                         # 端口
 LOCAL_HOST = '127.0.0.1'            # 本地服务器地址
 LOCAL_PORT = 1122                   # 本地端口

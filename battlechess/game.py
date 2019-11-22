@@ -82,9 +82,10 @@ class BeginGame(BaseGame):
                 self.buttons['match'].set_click(True)
 
         elif self.state == 'match':
-            data = self.getdata()
-            if data and data['type'] == 'init':
-                self.begin('online', data)
+            datas = self.get_datas()
+            for data in datas:
+                if data and data['type'] == 'init':
+                    self.begin('online', data)
 
     def draw(self):
         self.screen.blit(self.img_bg, (0, 0))
@@ -353,17 +354,17 @@ class BattleChess(BaseGame):
         # todo: 加入断线检测。
         if self.factory.lost:
             pass
-        data = self.factory.data
-        typ = data['type']
-        if typ == 'move':
-            x, y = data['from'][0], data['from'][1]
-            self.move_chess(self.chess[x][y], *data['to'])
-        elif typ == 'open':
-            x, y = data['from'][0], data['from'][1]
-            self.open_chess(x, y)
-        elif typ == 'giveup':
-            self.win_game(self.my_color)
-        self.factory.data = None
+        datas = self.get_datas()
+        for data in datas:
+            typ = data['type']
+            if typ == 'move':
+                x, y = data['from'][0], data['from'][1]
+                self.move_chess(self.chess[x][y], *data['to'])
+            elif typ == 'open':
+                x, y = data['from'][0], data['from'][1]
+                self.open_chess(x, y)
+            elif typ == 'giveup':
+                self.win_game(self.my_color)
 
     def update_color(self):
         '''

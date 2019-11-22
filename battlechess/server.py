@@ -12,7 +12,7 @@ from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
 from twisted.internet.endpoints import TCP4ServerEndpoint
 from twisted.internet import reactor
-from .utils import random_chess, Logging, excuteSQL, get_user, qqmsg
+from .utils import *
 from .configs import SERVER_LOG_PATH, USERDB, DATABASE_PATH
 
 
@@ -49,7 +49,7 @@ class BCServerProtocol(Protocol):
         # 如果有正在进行的游戏，则判定为输
         if self.user in self.factory.matched:
             data = {'type': 'giveup'}
-            self.sendToMatched(json.dumps(data).encode())
+            self.sendToMatched(dict2bin(data))
             v = self.cleangame()
             if v:
                 self.log.print("因为 %s 掉线，%s 和 %s 的游戏结束!" % (self.user, self.user, v))
@@ -60,25 +60,22 @@ class BCServerProtocol(Protocol):
         # 从客户池中删除
         self.factory.clients.pop(self.user)
 
-    def dataReceived(self, data):
+    def dataReceived(self, _data):
         '''
         收到数据时的处理操作。
         '''
-        strdata = data.decode('utf-8')
-        jsons = strdata.replace('}{', '}}{{').split('}{')
-        for js in jsons:
-            try:
-                dictdata = json.loads(js)
-            except json.decoder.JSONDecodeError as e:
-                self.log.print(e)
-                self.log.print(js)
+        # strdata = data.decode('utf-8')
+        # jsons = strdata.replace('}{', '}}{{').split('}{')
+
+        datas = spilt_data(_data)
+        for data in datas:
+            print(data)
+            typ = data['type']
+            if typ in self.parse:
+                self.parse[typ](data)
             else:
-                typ = dictdata['type']
-                if typ in self.parse:
-                    self.parse[typ](dictdata)
-                else:
-                    self.log.print('用户 %s 进行了游戏操作: %s' % (self.user, typ))
-                    self.sendToMatched(js.encode('utf-8'))
+                self.log.print('用户 %s 进行了游戏操作: %s' % (self.user, typ))
+                self.sendToMatched(dict2bin(data))
 
     def signin(self, data):
         '''
@@ -88,7 +85,7 @@ class BCServerProtocol(Protocol):
         self.log.print('用户 %s 发起了登录请求。' % user['name'])
         if user['name'] in self.factory.clients:
             reply = {'type': 'signin', 'result': 'failed', 'reason': '该账号在其他地方已登录。'}
-            self.transport.write(json.dumps(reply).encode('utf-8'))
+            self.transport.write(dict2bin(reply))
             self.log.print('用户 %s 登录失败。 因为： %s' % (user['name'], reply['reason']))
             return
         # 查询是否存在该用户
@@ -113,7 +110,7 @@ class BCServerProtocol(Protocol):
         else:
             self.log.print('用户 %s 登录成功。' % user['name'])
         # 将结果发送给用户
-        self.transport.write(json.dumps(reply).encode('utf-8'))
+        self.transport.write(dict2bin(reply))
 
     def signup(self, data):
         '''
@@ -144,7 +141,7 @@ class BCServerProtocol(Protocol):
         else:
             self.log.print('用户 %s 注册成功。' % user['name'])
         # 将结果发送给用户
-        self.transport.write(json.dumps(reply).encode('utf-8'))
+        self.transport.write(dict2bin(reply))
 
     def match(self, user):
         '''
@@ -173,8 +170,8 @@ class BCServerProtocol(Protocol):
             your_user = get_user(you)
             data1 = {'type': 'init', 'chess': chess, 'turn': 'red', 'color': 'red', 'me': my_user, 'you': your_user}
             data2 = {'type': 'init', 'chess': chess, 'turn': 'red', 'color': 'blue', 'me': your_user, 'you': my_user}
-            self.transport.write(json.dumps(data1).encode('utf-8'))
-            self.sendToMatched(json.dumps(data2).encode('utf-8'))
+            self.transport.write(dict2bin(reply))
+            self.sendToMatched(dict2bin(reply))
 
     def unmatch(self, user):
         '''

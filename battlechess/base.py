@@ -6,11 +6,10 @@
 @date: 2019/11/22
 @document: 游戏的基类，棋子类和按键类
 '''
-import json
 import pygame
 from pygame.locals import MOUSEBUTTONDOWN
 from twisted.internet import reactor
-from .utils import uninstall_game, get_surface, surface_clip
+from .utils import uninstall_game, get_surface, surface_clip, dict2bin
 from .configs import *
 
 
@@ -75,22 +74,20 @@ class BaseGame(object):
         '''
         if not self.factory or not self.factory.protocol:
             return
-        self.factory.protocol.transport.write(json.dumps(data).encode('utf-8'))
+        self.factory.protocol.transport.write(dict2bin(data))
         # self.factory.protocol.transport.getHandle().sendall(json.dumps(data).encode('utf-8'))
 
-    def getdata(self, clean=True):
+    def get_datas(self, clean=True):
         '''
         返回网络工厂中的一条数据，也就是服务器发来的数据。
         todo: 将消息变成列表，否则可能会漏处理消息。
         '''
         if not self.factory:
             return None
-        if self.factory.data:
-            data = self.factory.data
-            if clean:
-                self.factory.data = None
-            return data
-        return None
+        data = self.factory.data
+        if clean:
+            self.factory.data = []
+        return data
 
     def lose_connection(self):
         '''

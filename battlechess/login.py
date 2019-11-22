@@ -16,7 +16,7 @@ from tkinter import Tk, Entry, Button
 from tkinter.ttk import Label
 from tkinter.messagebox import showinfo, askyesno
 from .configs import IMG_PATH
-from .utils import install_game
+from .utils import install_game, dict2bin
 from .game import BeginGame
 
 
@@ -71,7 +71,7 @@ class LoginUI(Tk):
             showinfo('错误', '输入不完整。')
             return
         data = {'type': 'signup', 'user': {'name': name, 'passwd': passwd}}
-        self.factory.protocol.transport.write(json.dumps(data).encode('utf-8'))
+        self.factory.protocol.transport.write(dict2bin(data))
 
     def signin(self, event=None):
         if not self.factory.protocol or self.factory.failed:
@@ -85,7 +85,7 @@ class LoginUI(Tk):
             showinfo('错误', '输入不完整。')
             return
         data = {'type': 'signin', 'user': {'name': name, 'passwd': passwd}}
-        self.factory.protocol.transport.write(json.dumps(data).encode('utf-8'))
+        self.factory.protocol.transport.write(dict2bin(data))
 
     def center_window(self, width, height):   # 窗口居中
         screenwidth = self.winfo_screenwidth()

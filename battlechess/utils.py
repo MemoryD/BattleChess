@@ -8,6 +8,7 @@
 '''
 
 import os
+import json
 import pygame
 import sqlite3
 from random import choice, randint
@@ -100,6 +101,39 @@ def excuteSQL(sql, value=None, db=USERDB):
         conn.commit()
         conn.close()
         return result
+
+
+def spilt_data(data):
+    '''
+    用来将服务器传来的数据包分开。
+    默认客户端和服务器端每次传送的数据都是
+    一个标准的json字符串加上换行符，因此只要
+    根据换行符进行数据分离就可以了。
+    '''
+    jsons = []
+    lines = data.decode('utf-8').split('\n')
+    for line in lines:
+        line = line.strip()
+        if line == '':
+            continue
+        try:
+            # 防止传来的不是json数据导致解析出错
+            j = json.loads(line)
+            jsons.append(j)
+        except:
+            Logging(SERVER_LOG_PATH).print('json数据解析失败，内容为： %s' % line)
+
+    return jsons
+
+
+def dict2bin(data):
+    '''
+    将字典数据转换成字符串，然后加上一个换行符，
+    再转换成二进制数据。
+    '''
+    strdata = json.dumps(data)
+    strdata = strdata + '\n'
+    return strdata.encode('utf-8')
 
 
 def get_user(name):
