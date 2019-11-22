@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
-@name: battlechess
-@author: Memory
-@date: 2019/11/14
+@name: login
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 游戏的登录界面
 '''
 

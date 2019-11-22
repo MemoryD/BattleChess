@@ -2,8 +2,8 @@
 
 '''
 @name: utils
-@author: Memory
-@date: 2019/11/14
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 为游戏提供一些辅助类和辅助函数
 '''
 

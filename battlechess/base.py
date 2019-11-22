@@ -1,9 +1,9 @@
 #!python3
 # -*- coding: utf-8 -*-
 '''
-@name: game
-@author: Memory
-@date: 2019/11/14
+@name: base
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 游戏的基类，棋子类和按键类
 '''
 import json

@@ -2,8 +2,8 @@
 
 '''
 @name: __init__
-@author: Memory
-@date: 2019/11/14
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 皇家战棋游戏包的初始化文件
 '''
 

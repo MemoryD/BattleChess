@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 '''
-@name: battlechess_server
-@author: Memory
+@name: client
+@author: Memory&Xinxin
 @date: 2019/11/15
-@document: 皇家战棋游戏网络传输的客户端文件
+@document: 皇家战棋游戏网络传输的客户端协议的实现
 '''
 
 import json

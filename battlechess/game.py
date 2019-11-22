@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 '''
-@name: battlechess
-@author: Memory
+@name: game
+@author: Memory&Xinxin
 @date: 2019/11/14
 @document: 皇家战棋游戏的主要文件
 '''

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
-@name: battlechess_server
-@author: Memory
-@date: 2019/11/14
+@name: server
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 皇家战棋游戏的服务端文件
 '''
 import os

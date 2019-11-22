@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
-@name: battlechess
-@author: Memory
-@date: 2019/11/14
+@name: run
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 皇家战棋游戏的入口文件
 '''
 

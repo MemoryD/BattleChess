@@ -2,8 +2,8 @@
 
 '''
 @name: configs
-@author: Memory
-@date: 2019/11/14
+@author: Memory&Xinxin
+@date: 2019/11/22
 @document: 配置游戏中的一些全局设置
 '''
 
