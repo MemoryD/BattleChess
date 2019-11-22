@@ -20,7 +20,7 @@ from .utils import install_game
 from .game import BeginGame
 
 
-class UserUI(Tk):
+class LoginUI(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.factory = None

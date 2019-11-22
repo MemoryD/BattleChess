@@ -17,27 +17,33 @@ from .configs import *
 
 
 _game = None
-
-
-def install_game(widget, ms=30, reactor=None):
-    """Install a Tkinter.Tk() object into the reactor."""
-    # installTkFunctions()
+def install_game(basegame, ms=30, reactor=None):
+    """
+    将一个basegame游戏对象安装到reactor中，其实就是隔30ms就调用一下basegame的
+    run() 方法，这样子可以让其不用运行在另一个线程中，可以避免很多麻烦。
+    这个方法是由 tksupport 文件改来的，具体可见：
+    https://twistedmatrix.com/documents/8.1.0/api/twisted.internet.tksupport.html
+    """
     global _game
-    _game = task.LoopingCall(widget.run)
+    _game = task.LoopingCall(basegame.run)
     _game.start(ms / 1000.0, False)
 
 
 def uninstall_game():
-    """Remove the root Tk widget from the reactor.
-
-    Call this before destroy()ing the root widget.
-    """
+    '''
+    停止定时任务。
+    '''
     global _game
     _game.stop()
     _game = None
 
 
 def qqmsg(name, op):
+    '''
+    为了和另nonebot交互，可以把服务器的一些日志发送到QQ上，
+    就在服务端调用这个函数，把一些消息写到文件中，再由nonebot
+    读取并发送到QQ。
+    '''
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S : ')
     msg = "%s%s %s。\n" % (now, name, op)
     with open(LOGIN_LOG, 'a+') as f:
@@ -73,6 +79,9 @@ class Logging(object):
 
 
 def excuteSQL(sql, value=None, db=USERDB):
+    '''
+    执行一条SQL语句，如果是select，就返回查询结果，如果出错返回None。
+    '''
     sql = sql.upper()
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
@@ -94,6 +103,9 @@ def excuteSQL(sql, value=None, db=USERDB):
 
 
 def get_user(name):
+    '''
+    查询一个用户名的信息。
+    '''
     sql = 'SELECT credit, title FROM user WHERE name=?'
     value = (name, )
     result = excuteSQL(sql, value)[0]
@@ -116,22 +128,10 @@ def get_surface(name):
     return surface
 
 
-# def load_imgs(path):
-#     '''
-#     载入path目录下所有的图像文件，存在一个字典里，键值就是文件名
-#     '''
-
-#     all_img = {}
-#     imgs = os.listdir(path)
-#     for img in imgs:
-#         img_name = img.split('.')[0]
-#         file = os.path.join(path, img)
-#         surface = pygame.image.load(file).convert_alpha()
-#         all_img[img_name] = surface
-#     return all_img
-
-
 def surface_clip_by_row(src, row):
+    '''
+    将一个surface按行分割。
+    '''
     w, h = src.get_size()
     h = h // row
     dst = []
@@ -141,6 +141,9 @@ def surface_clip_by_row(src, row):
 
 
 def surface_clip_by_col(src, col):
+    '''
+    将一个surface按列分割。
+    '''
     w, h = src.get_size()
     w = w // col
     dst = []
@@ -151,7 +154,9 @@ def surface_clip_by_col(src, col):
 
 def surface_clip(src, row, col, mode='row'):
     '''
-    将一个surface划分成x*y个等大的subsurface。
+    将一个surface划分成row*col个等大的subsurface，
+    如果 mode=='row'，返回dst[row][col]
+    如果 mode=='col'，返回dst[col][row]
     '''
     w, h = src.get_size()
     h = h // row
@@ -200,11 +205,15 @@ def random_user():
 
 
 def get_title(credit):
+    '''
+    给定积分credit，返回对应的称号。
+    '''
     if credit < 0:
         return '平民'
     for t, c in TITLE.items():
         if c[0] <= credit < c[1]:
             return t
+    return '教皇'
 
 
 def hex2rgb(color):
@@ -284,4 +293,3 @@ if __name__ == '__main__':
     import cv2
     import numpy as np
     gen_chessboard()
-    # printLog('hhh','233')

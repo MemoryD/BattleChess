@@ -76,8 +76,4 @@ class BCClientFactory(ClientFactory):
 
     def clientConnectionFailed(self, connector, reason):
         self.failed = True
-        # answer = askyesno("无法连接服务器", "无法连接到服务器，是否进入离线模式？", default='yes')
-        # if answer:
-        #     self.ui.begin(True)
-        # todo: 此处插入询问是否进入离线模式
-        print("连接到服务器失败失败。 原因: %s" % (reason))
+        self.log.print("连接到服务器失败失败。 原因: %s" % (reason))
