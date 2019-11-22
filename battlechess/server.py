@@ -247,9 +247,11 @@ def createDatabase():
                 CREDIT INT NOT NULL,
                 TITLE VARCHAR(8)
                 );
-                INSERT INTO user(name, passwd, credit, title) VALUES('xinxin', '2333', 1095, '小城主');
-                INSERT INTO user(name, passwd, credit, title) VALUES('memory', '2333', 1095, '小城主');
                 '''
+        excuteSQL(sql)
+        sql = 'INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES("xinxin", "2333", 1095, "小城主")'
+        excuteSQL(sql)
+        sql = 'INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES("memory", "2333", 1095, "小城主")'
         excuteSQL(sql)
 
 

@@ -9,6 +9,6 @@
 
 
 __title__ = 'battlechess'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __author__ = 'Memory&Xinxin'
 __copyright__ = 'Copyright 2019 Memory&Xinxin'

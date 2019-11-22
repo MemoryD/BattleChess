@@ -96,6 +96,7 @@ def excuteSQL(sql, value=None, db=USERDB):
         if sql.startswith('SELECT'):
             result = cursor.fetchall()
     except:
+        Logging(SERVER_LOG_PATH).print('数据库操作失败： %s' % sql)
         return None
     finally:
         cursor.close()
@@ -112,7 +113,10 @@ def spilt_data(data):
     根据换行符进行数据分离就可以了。
     '''
     jsons = []
-    lines = data.decode('utf-8').split('\n')
+    try:
+        lines = data.decode('utf-8').split('\n')
+    except:
+        Logging(SERVER_LOG_PATH).print('非法内容： ', data)
     for line in lines:
         line = line.strip()
         if line == '':
