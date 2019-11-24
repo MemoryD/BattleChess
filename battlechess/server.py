@@ -58,6 +58,7 @@ class BCServerProtocol(Protocol):
 
         # 从客户池中删除
         self.factory.clients.pop(self.user)
+        write_online(len(self.factory.clients))
 
     def dataReceived(self, _data):
         '''
@@ -101,6 +102,7 @@ class BCServerProtocol(Protocol):
             qqmsg(user['name'], '登录了游戏')
             # 添加到用户池
             self.factory.clients[user['name']] = self
+            write_online(len(self.factory.clients))
             self.user = user['name']
         # 打印日志
         if reply['result'] == 'failed':
@@ -230,7 +232,7 @@ class BCServerFactory(Factory):
 
 
 def runserver(port):
-    endpoint = TCP4ServerEndpoint(reactor, 1122)
+    endpoint = TCP4ServerEndpoint(reactor, port)
     endpoint.listen(BCServerFactory())
     reactor.run()
 
@@ -249,10 +251,10 @@ def createDatabase():
                 );
                 '''
         excuteSQL(sql)
-        sql = 'INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES("xinxin", "2333", 1095, "小城主")'
-        excuteSQL(sql)
-        sql = 'INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES("memory", "2333", 1095, "小城主")'
-        excuteSQL(sql)
+        sql = "INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES(?, ?, ?, ?)"
+        excuteSQL(sql, ('xinxin', '2333', 2000, '男爵'))
+        sql = "INSERT INTO USER(NAME, PASSWD, CREDIT, TITLE) VALUES(?, ?, ?, ?)"
+        excuteSQL(sql, ('memory', '2333', 2000, '男爵'))
 
 
 if __name__ == '__main__':

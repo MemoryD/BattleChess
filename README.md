@@ -16,6 +16,8 @@ QQ宠物里面有一个游戏叫做皇家战棋，我女朋友很喜欢玩，但
 
 在Linux下运行会出现中文字体无法显示的问题，还待解决。
 
+本项目地址：[BattleChess](https://github.com/MemoryD/BattleChess/)
+
 ## 1. 游戏说明
 
 ### 1.1 等级划分
@@ -103,6 +105,20 @@ QQ宠物里面有一个游戏叫做皇家战棋，我女朋友很喜欢玩，但
 
 #### 方法一：
 
+直接使用 pip 安装：
+
+```sh
+pip install battlechess
+```
+
+最后在命令行中用如下命令启动游戏：
+
+```sh
+python -m battlechess
+```
+
+#### 方法二：
+
 下载 [releases](https://github.com/MemoryD/BattleChess/releases) 中的 `battlechess-vx.x.x-py3-none-any.whl` ，然后使用如下命令安装：
 
 ```sh
@@ -115,7 +131,7 @@ pip install battlechess-vx.x.x-py3-none-any.whl
 python -m battlechess
 ```
 
-#### 方法二：
+#### 方法三：
 
 将本项目的代码克隆到本地，然后进入文件夹 `BattleChess`，先使用 `pip` 安装依赖：
 
@@ -152,7 +168,7 @@ python -m battlechess
 #### 待实现的功能
 
 - [ ] 实现棋盘格子提示颜色的半透明化，让画面更加好看。
-- [ ] 优化服务端和客户端对网络数据的解析问题，即优化协议。
+- [x] 优化服务端和客户端对网络数据的解析问题，即优化协议。
 - [ ] 加入声音。
 - [ ] 加入求和模式。
 - [ ] 对传输进行加密。

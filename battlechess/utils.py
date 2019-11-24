@@ -52,6 +52,14 @@ def qqmsg(name, op):
         f.write(msg)
 
 
+def write_online(num):
+    try:
+        with open(ONLINE_PATH, 'w', encoding='utf-8') as f:
+            f.write(str(num))
+    except:
+        pass
+
+
 class Logging(object):
     '''用来打印日志的类'''
     def __init__(self, path=None):

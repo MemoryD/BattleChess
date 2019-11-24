@@ -13,6 +13,7 @@ setup(
     author_email="memory_d@foxmail.com",
     description="a board game written in pygame",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     license="MIT",
     url="https://github.com/MemoryD/BattleChess",
     packages=find_packages(),
