@@ -2,7 +2,7 @@
 
 ## 0. 前言
 
-QQ宠物里面有一个游戏叫做皇家战棋，我女朋友很喜欢玩，但是腾讯前不久关闭了QQ宠物，这个游戏也没地方玩了。所以我就准备自己写一个，刚好最近也租了一个云服务器，可以尝试写一个可以联网对战的。
+QQ宠物里面有一个游戏叫做皇家战棋，但是腾讯前不久关闭了QQ宠物，这个游戏也没地方玩了。所以我就准备自己写一个，刚好最近也租了一个云服务器，可以尝试写一个可以联网对战的。
 
 游戏用到的素材都是网上找的图片，然后再自己去抠图加工，棋子是在一个素材网站下载的。
 
@@ -78,14 +78,6 @@ QQ宠物里面有一个游戏叫做皇家战棋，我女朋友很喜欢玩，但
 ---
 
 ## 2. 运行截图
-
-- 登录：
-
-  ![等级说明](https://raw.githubusercontent.com/MemoryD/BattleChess/master/screenshot/login.png)
-
-- 开始界面：
-
-  ![等级说明](https://raw.githubusercontent.com/MemoryD/BattleChess/master/screenshot/begin.png)
 
 - 游戏界面：
 
